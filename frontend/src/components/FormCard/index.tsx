@@ -11,9 +11,11 @@ type Props = {
 }
 
 function FormCard( { movieId } : Props ) {
+    
     const navigate = useNavigate();
 
     const [movie, setMovie] = useState<Movie>();
+
     useEffect(() => {
         axios.get(`${BASE_URL}/movies/${movieId}`)
         .then(response => {
@@ -21,12 +23,12 @@ function FormCard( { movieId } : Props ) {
         });
     }, [movieId]);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) =>{
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const email = (event.target as any).email.value;
         const score = (event.target as any).score.value;
 
-        if (!validateEmail){
+        if (!validateEmail(email)){
             return;
         }
         const config: AxiosRequestConfig = {
@@ -41,7 +43,7 @@ function FormCard( { movieId } : Props ) {
         }
 
         axios(config).then(Response =>{
-            console.log(Response.data);
+            
             navigate("/");
         });
     }
